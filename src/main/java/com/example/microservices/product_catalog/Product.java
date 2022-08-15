@@ -1,9 +1,12 @@
 package com.example.microservices.product_catalog;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-@Document(collection="product")
+
+
+
+@Entity
 public class Product {
     @Id
     private String id;
