@@ -3,7 +3,9 @@ package com.example.microservices.product_catalog;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +13,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class ProductCatalogService {
     
 	 @Value("${server.url}")
-	    private String url;
+	 private String url;
 	 
     @Autowired
     private  ProductCatalogRepository productCatalogRepository;
+    
+    @Autowired
+    @Qualifier("loadBalancedRestTemplate")
+    private RestTemplate restTemplate;
 
     @PostMapping("/product")
     public Product addProduct(@RequestBody Product product){
@@ -51,5 +58,9 @@ public class ProductCatalogService {
     public List<Product> getProductList(){
         return (List<Product>) productCatalogRepository.findAll();
     }
-
+    
+    @GetMapping("/customer")
+    public String getCentralConfig(){
+        return restTemplate.getForObject("http://userservice/user/1", String.class);
+    }
 }

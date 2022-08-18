@@ -1,5 +1,7 @@
 eureka:
   instance:
+    appname: "PRODUCTCATALOGSER"
+    preferIpAddress: true
     hostname: localhost
   client:
     register-with-eureka: true
@@ -8,9 +10,15 @@ eureka:
       defaultZone: http://localhost:8763/eureka
 server:
   port: 9091
+  
+ping-server:
+  ribbon:
+    eureka:
+      enabled: true
+      ServerListRefreshInterval: 1000
 spring:
   application:
-    name: product_catalog_service
+    name: PRODUCTCATALOGSER
   datasource:
     driverClassName: org.h2.Driver
     password: password
@@ -18,3 +26,6 @@ spring:
     username: sa
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+custom:
+  consumer:
+    app1: "user_service"
