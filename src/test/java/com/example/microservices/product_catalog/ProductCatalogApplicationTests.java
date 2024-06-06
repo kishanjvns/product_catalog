@@ -1,76 +1,59 @@
-package com.example.microservices.product_catalog;
+package com.example.microservices;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import com.example.microservices.domain.Product;
+import com.example.microservices.repo.ProductRepository;
+import com.example.microservices.repo.SearchCriteria;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Assert;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProductCatalogApplicationTests {
+public class ProductServiceTest {
+    @Autowired
+    ProductRepository productRepository;
 
-	@Autowired
-	private MockMvc mvc;
+    @BeforeEach
+    public void  init(){
+        List<Product> products=new ArrayList<>();
+        products.add(Product.builder()
+                .createdDate(LocalDate.now())
+                .title("11 Rules of life")
+                .desc("for life changing")
+                .price(250)
+                .build());
+        products.add(Product.builder()
+                .createdDate(LocalDate.now())
+                .title("Modern parenting")
+                .desc("for new parents")
+                .price(350)
+                .build());
+        products.add(Product.builder()
+                .createdDate(LocalDate.now())
+                .title("Ravana")
+                .desc("Dharmik")
+                .price(990)
+                .build());
+        products.add(Product.builder()
+                .createdDate(LocalDate.now())
+                .title("Java 11")
+                .desc("Technology")
+                .price(1000)
+                .build());
 
-	private String testProductId="test-product-444";
+        productRepository.saveAll(products);
+    }
 
-	@Test
-	@Order(1)
-	public void testCreateProduct() throws Exception{
-		this.mvc.perform(post("/product")
-           .contentType(MediaType.APPLICATION_JSON)
-           .content("{\"id\":\""+testProductId+"\",\"title\":\"test-product-2\",\"desc\":\"test product 2\",\"imagePath\":\"gc://image-path\",\"unitPrice\":10.00}") 
-           .accept(MediaType.APPLICATION_JSON))
-		   .andExpect(status().isOk());
-	}
-
-	@Test
-	@Order(2)
-	public void testGetProductDetails() throws Exception {
-		this.mvc.perform(get("/product/"+testProductId))
-		.andDo(print())
-		.andExpect(status().isOk());
-	}
-
-	@Test
-	@Order(3)
-	public void testUpdateProduct() throws Exception{
-		this.mvc.perform(put("/product")
-           .contentType(MediaType.APPLICATION_JSON)
-           .content("{\"id\":\""+testProductId+"\",\"title\":\"test-product-updated\",\"desc\":\"test product updated\",\"imagePath\":\"gc://image-path\",\"unitPrice\":10.00}")) 
-		   .andExpect(status().isOk());
-	}
-
-
-
-	@Test
-	@Order(4)
-	public void testGetProductDetails_v2() throws Exception {
-		this.mvc.perform(get("/product/"+testProductId))
-		.andDo(print())
-		.andExpect(status().isOk());
-	}
-
-
-	@Test
-	@Order(5)
-	public void testDeleteProduct() throws Exception {
-		this.mvc.perform(delete("/product/"+testProductId))
-		.andExpect(status().isOk());
-	}
-
+    @Test
+    public void isRecordAvailable(){
+        List<Product> products = productRepository.findAll();
+        Assert.notEmpty(products,"This is not null");
+    }
 
 }

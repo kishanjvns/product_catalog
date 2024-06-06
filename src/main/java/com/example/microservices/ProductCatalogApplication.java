@@ -1,4 +1,4 @@
-package com.example.microservices.product_catalog;
+package com.example.microservices;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
