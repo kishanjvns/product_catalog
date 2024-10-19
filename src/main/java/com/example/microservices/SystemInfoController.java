@@ -1,6 +1,7 @@
 package com.example.systeminfo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.InetAddress;
@@ -9,9 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/system-info")
 public class SystemInfoController {
 
-    @GetMapping("/api/system-info")
+    @GetMapping()
     public Map<String, String> getSystemInfo() throws UnknownHostException {
         Map<String, String> systemInfo = new HashMap<>();
 
