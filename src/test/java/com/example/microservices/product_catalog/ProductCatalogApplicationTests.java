@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class ProductServiceTest {
+public class ProductCatalogApplicationTests {
     @Autowired
     ProductRepository productRepository;
 
