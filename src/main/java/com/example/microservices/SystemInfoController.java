@@ -1,4 +1,4 @@
-package com.example.systeminfo.controller;
+package com.example.microservices;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
