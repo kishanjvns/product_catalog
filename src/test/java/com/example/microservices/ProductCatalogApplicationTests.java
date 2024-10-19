@@ -3,7 +3,6 @@ package com.example.microservices;
 import com.example.microservices.domain.Product;
 import com.example.microservices.repo.ProductRepository;
 import com.example.microservices.repo.SearchCriteria;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
